@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quetta Bolan Cafe | Premium Ordering System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght=500;700&family=Marcellus&family=Plus+Jakarta+Sans:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b0c10;
+            color: #c5c6c7;
+        }
+
+        .elegant-title {
+            font-family: 'Cinzel', serif;
+        }
+
+        .elegant-body {
+            font-family: 'Marcellus', serif;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0b0c10;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #1f2833;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #45f3ff;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+    <header class="bg-[#1f2833]/90 border-b border-orange-500/20 sticky top-0 z-40 backdrop-blur-md transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-4">
+
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.reload()">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-orange-500 to-amber-600 flex items-center justify-center font-bold text-white text-xl shadow-lg elegant-title">
+                    Q
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-widest text-orange-500 elegant-title">QUETTA BOLAN CAFE</h1>
+                    <p class="text-[10px] tracking-widest text-slate-400">DHA PHASE 2, ISLAMABAD</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+                <div class="relative w-full sm:w-64">
+                    <input type="text" id="menuSearchInput" placeholder="Search chai, burger..."
+                        class="w-full bg-[#0b0c10] border border-[#1f2833] focus:border-orange-500 rounded-lg px-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none transition-all duration-200">
+                </div>
+
+                <button id="adminPortalTriggerButton"
+                    class="bg-transparent border border-orange-500/40 text-orange-500 hover:bg-orange-500/10 px-3 py-2 rounded-lg text-xs font-medium tracking-wider transition-all duration-200 whitespace-nowrap">
+                    🔑 ADMIN
+                </button>
+
+                <button id="cartSidebarTriggerButton"
+                    class="relative bg-orange-500 hover:bg-orange-600 text-[#0b0c10] font-bold px-4 py-2 rounded-lg text-sm transition-all duration-200 flex items-center gap-2">
+                    🛒 <span>Cart</span>
+                    <span id="cartCountBadge" class="bg-[#0b0c10] text-orange-500 text-xs px-2 py-0.5 rounded-full font-bold">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <section id="customerApplicationSection" class="block space-y-10">
+            <div id="customerCategoryButtonsRow" class="flex flex-wrap gap-2 justify-center py-2 border-b border-[#1f2833]/50"></div>
+
+            <div id="chefSpecialsContainer" class="hidden space-y-4">
+                <div class="flex items-center gap-2 border-b border-orange-500/30 pb-2">
+                    <span class="text-xl">👨‍🍳</span>
+                    <h2 class="text-xl tracking-wider text-orange-500 elegant-title">CHEF'S SPECIALS</h2>
+                </div>
+                <div id="chefSpecialsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+
+            <div id="featuredItemsContainer" class="hidden space-y-4">
+                <div class="flex items-center gap-2 border-b border-amber-500/30 pb-2">
+                    <span class="text-xl">✨</span>
+                    <h2 class="text-xl tracking-wider text-amber-500 elegant-title">FEATURED ITEMS</h2>
+                </div>
+                <div id="featuredItemsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="flex items-center justify-between border-b border-[#1f2833] pb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">🍽️</span>
+                        <h2 class="text-xl tracking-wider text-white elegant-title" id="currentMenuHeading">OUR REFINED MENU</h2>
+                    </div>
+                </div>
+                <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+            </div>
+        </section>
+
+        <section id="adminSystemControlSection" class="hidden space-y-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#1f2833] p-4 rounded-xl border border-orange-500/20">
+                <div>
+                    <h2 class="text-2xl font-bold tracking-wider text-orange-500 elegant-title">SECURE CONTROL DESK</h2>
+                    <p class="text-xs text-slate-400">Database synchronization & binary optimized internal asset management panel</p>
+                </div>
+                <button id="exitAdminPanelButton"
+                    class="bg-slate-700 hover:bg-slate-600 text-white font-medium text-xs px-4 py-2 rounded-lg tracking-wider transition-all duration-200">
+                    EXIT CONTROL DESK
+                </button>
+            </div>
+
+            <div class="bg-[#1f2833]/50 border border-orange-500/20 p-4 rounded-xl grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <h3 class="text-sm font-bold tracking-wider text-white border-b border-[#1f2833] pb-2 elegant-title mb-3">
+                        ➕ ADD NEW CATEGORY
+                    </h3>
+                    <div class="space-y-2">
+                        <input type="text" id="newCategoryTitleInput" placeholder="e.g., Special Naan / Sides"
+                            class="w-full bg-[#0b0c10] border border-[#1f2833] rounded-lg p-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                        <button id="saveCategoryRecordButton"
+                            class="w-full bg-orange-500 hover:bg-orange-600 text-[#0b0c10] font-bold text-xs py-2 rounded-lg transition-all">
+                            SAVE CATEGORY
+                        </button>
+                    </div>
+                </div>
+                <div class="md:col-span-2">
+                    <h3 class="text-sm font-bold tracking-wider text-white border-b border-[#1f2833] pb-2 elegant-title mb-3">
+                        📋 LIVE CATEGORIES LIST (REMOVE)
+                    </h3>
+                    <div id="adminCategoryChipsWrapper" class="flex flex-wrap gap-2"></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-1 bg-[#1f2833]/50 border border-[#1f2833] p-4 rounded-xl space-y-4">
+                    <h3 class="text-md font-bold tracking-wider text-white border-b border-[#1f2833] pb-2 elegant-title">
+                        ADD NEW REVOLVING DISH
+                    </h3>
+                    <form id="menuItemCrudForm" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Item Title *</label>
+                            <input type="text" id="crudItemTitle" required placeholder="e.g., Balochi Karahi / Paratha"
+                                class="w-full bg-[#0b0c10] border border-[#1f2833] rounded-lg p-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">Price (PKR) *</label>
+                                <input type="number" id="crudItemPrice" required placeholder="180"
+                                    class="w-full bg-[#0b0c10] border border-[#1f2833] rounded-lg p-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">Menu Category *</label>
+                                <select id="crudItemCategory" required
+                                    class="w-full bg-[#0b0c10] border border-[#1f2833] rounded-lg p-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Short Description</label>
+                            <input type="text" id="crudItemDescription" placeholder="Freshly made with premium ingredients..."
+                                class="w-full bg-[#0b0c10] border border-[#1f2833] rounded-lg p-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                        </div>
+
+                        <div class="mt-4 p-3 border border-[#1f2833] rounded-lg bg-[#0b0c10]/50">
+                            <label class="block text-[10px] font-medium text-slate-400 mb-2 uppercase tracking-widest">
+                                Step 1: Select Item Image
+                            </label>
+                            <div class="flex flex-col gap-2">
+                                <input type="file" id="crudImageFileSelector" accept="image/*"
+                                    class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-orange-500 file:text-white hover:file:bg-orange-600 cursor-pointer">
+                                <button type="button" id="triggerImageUploadButton"
+                                    class="w-full bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold py-2 px-4 rounded transition-all">
+                                    CONVERT & LOCK HD IMAGE
+                                </button>
+                            </div>
+
+                            <div id="linkContainer" class="hidden mt-3">
+                                <label class="block text-[10px] text-green-400 mb-1">✅ HD Image Locked Successfully!</label>
+                                <input type="hidden" id="imageUrlInput">
+                                <div class="w-20 h-20 rounded border border-[#1f2833] mt-1 overflow-hidden">
+                                    <img id="adminImagePreviewElement" src="" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-2 py-2 border-t border-b border-[#1f2833]">
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="crudIsChefSpecial" class="w-4 h-4 accent-orange-500">
+                                <label for="crudIsChefSpecial" class="text-xs font-medium text-slate-300 select-none">
+                                    👨‍🍳 Mark as Chef's Special
+                                </label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="crudIsFeatured" class="w-4 h-4 accent-amber-500">
+                                <label for="crudIsFeatured" class="text-xs font-medium text-slate-300 select-none">
+                                    ✨ Mark as Featured Item
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full bg-green-600 hover:bg-green-700 text-white font-bold text-xs py-2.5 rounded-lg tracking-wider transition-all duration-200">
+                            SAVE ITEM TO REALTIME DB
+                        </button>
+                    </form>
+                </div>
+
+                <div class="lg:col-span-2 bg-[#1f2833]/30 border border-[#1f2833] p-4 rounded-xl space-y-3">
+                    <h3 class="text-md font-bold tracking-wider text-white border-b border-[#1f2833] pb-2 elegant-title">
+                        LIVE DIRECTORY MANAGEMENT
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="border-b border-[#1f2833] text-slate-400 font-semibold bg-[#0b0c10]">
+                                    <th class="p-2">Dish Info</th>
+                                    <th class="p-2">Category</th>
+                                    <th class="p-2">Base Cost</th>
+                                    <th class="p-2 text-right">Administrative Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminInventoryTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="adminAuthPortalModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-[#1f2833] border border-orange-500/30 max-w-sm w-full p-6 rounded-xl space-y-4 shadow-2xl">
+            <div class="text-center">
+                <span class="text-3xl">🔐</span>
+                <h3 class="text-xl font-bold tracking-wider text-white mt-1 elegant-title">CONTROL GATEWAY</h3>
+                <p class="text-xs text-slate-400">Secure ecosystem credentials requested</p>
+            </div>
+            <div id="authPanelErrorMessage" class="hidden text-xs text-center bg-red-900/40 border border-red-500/50 text-red-300 p-2 rounded-lg">
+                Access denied. Invalid credentials.
+            </div>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1">System Username</label>
+                    <input type="text" id="authPortalUsernameField" placeholder="Enter administrative username"
+                        class="w-full bg-[#0b0c10] border border-[#1f2833] rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-orange-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1">Security Password Key</label>
+                    <input type="password" id="authPortalPasswordField" placeholder="••••••••••••"
+                        class="w-full bg-[#0b0c10] border border-[#1f2833] rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-orange-500">
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button id="authorizeAdminAccessButton"
+                    class="flex-grow bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs py-2.5 rounded-lg tracking-wider transition-all duration-200">
+                    AUTHORIZE ACCESS
+                </button>
+                <button id="closeAdminAuthModalButton"
+                    class="bg-slate-800 hover:bg-slate-700 text-white text-xs px-4 rounded-lg transition-all">
+                    Cancel
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+   <div id="clientCartSidebarModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex justify-end">
+        <div class="bg-[#1f2833] border-l border-orange-500/20 max-w-md w-full h-full flex flex-col justify-between shadow-2xl">
+            
+            <div class="p-6 border-b border-[#1f2833] flex justify-between items-center bg-[#1f2833]">
+                <div class="flex items-center gap-2">
+                    <span class="text-lg">🛒</span>
+                    <h3 class="text-lg font-bold tracking-wider text-white elegant-title">YOUR SELECTIONS</h3>
+                </div>
+                <button id="closeCartSidebarXButton" class="text-slate-400 hover:text-white text-xl font-bold focus:outline-none">&times;</button>
+            </div>
+
+            <div class="flex-grow overflow-y-auto p-6 space-y-5 text-xs custom-sidebar-scroll">
+                
+                <div id="cartItemWrapperCanvas" class="space-y-4 text-xs"></div>
+
+                <div class="pt-2">
+                    <label class="block text-[10px] font-semibold tracking-wider text-slate-400 mb-1 uppercase">
+                        Special Culinary Instructions
+                    </label>
+                    <textarea id="checkoutSpecialInstructionsTextarea" rows="2"
+                        placeholder="e.g., Make the Karak chai extra strong (Tezz Patti)..."
+                        class="w-full bg-[#0b0c10] border border-[#1f2833] text-xs text-white rounded-lg p-2 focus:outline-none focus:border-orange-500 placeholder-slate-600 resize-none"></textarea>
+                </div>
+
+                <div class="space-y-2 border-t border-[#1f2833] pt-3">
+                    <label class="block text-[10px] font-semibold tracking-wider text-slate-400 uppercase">
+                        Delivery Logistics Vector
+                    </label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" id="checkoutGuestFullName" placeholder="Your Name *"
+                            class="w-full bg-[#0b0c10] border border-[#1f2833] text-xs text-white rounded-lg p-2 focus:outline-none focus:border-orange-500">
+                        <input type="text" id="checkoutGuestContactNumber" placeholder="WhatsApp Phone *"
+                            class="w-full bg-[#0b0c10] border border-[#1f2833] text-xs text-white rounded-lg p-2 focus:outline-none focus:border-orange-500">
+                    </div>
+                    <input type="text" id="checkoutGuestDeliveryAddress" placeholder="Full Destination Address (DHA Phase 2, Islamabad) *"
+                        class="w-full bg-[#0b0c10] border border-[#1f2833] text-xs text-white rounded-lg p-2 focus:outline-none focus:border-orange-500">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-semibold tracking-wider text-slate-400 uppercase">
+                        Transaction Settlement Channel
+                    </label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="flex items-center gap-2 bg-[#0b0c10] border border-[#1f2833] p-2 rounded-lg cursor-pointer select-none">
+                            <input type="radio" name="paymentOptionRadioGroup" value="COD" checked id="payMethodCodRadio" class="accent-orange-500">
+                            <span class="text-xs text-white font-medium">Cash On Delivery</span>
+                        </label>
+                        <label class="flex items-center gap-2 bg-[#0b0c10] border border-[#1f2833] p-2 rounded-lg cursor-pointer select-none">
+                            <input type="radio" name="paymentOptionRadioGroup" value="ONLINE" id="payMethodOnlineRadio" class="accent-orange-500">
+                            <span class="text-xs text-white font-medium">Online Remittance</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="checkoutOnlinePaymentDetailsSubpanel" class="hidden bg-[#0b0c10] border border-orange-500/20 p-3 rounded-lg text-xs space-y-1.5 text-slate-300">
+                    <p class="text-amber-400 font-bold text-[10px] tracking-wider mb-1">🏦 INBOUND SETTLE TERMINALS</p>
+                    <p class="flex justify-between border-b border-[#1f2833] pb-1"><span class="text-slate-400">JazzCash:</span> <span class="font-bold text-white tracking-wider">03095253009</span></p>
+                    <p class="flex justify-between border-b border-[#1f2833] pb-1"><span class="text-slate-400">EasyPaisa:</span> <span class="font-bold text-white tracking-wider">03095253009</span></p>
+                    <p class="text-[10px] text-orange-400 font-medium pt-0.5">Title: Muhammad Anwer</p>
+                </div>
+            </div>
+
+            <div class="p-6 border-t border-[#1f2833] bg-[#1f2833] space-y-2">
+                <div class="flex justify-between text-xs font-medium text-slate-400">
+                    <span>Cart Subtotal:</span>
+                    <span id="checkoutSummarySubtotalDisplay">Rs. 0</span>
+                </div>
+                <div class="flex justify-between text-xs font-medium text-slate-400">
+                    <span>Delivery Fixed Fee:</span>
+                    <span id="checkoutSummaryDeliveryFeeDisplay">Rs. 150</span>
+                </div>
+                <div class="flex justify-between text-sm font-bold border-t border-[#1f2833]/60 pt-2 text-white">
+                    <span class="text-orange-500">Grand Total Balance Due:</span>
+                    <span id="checkoutSummaryGrandTotalDisplay" class="text-orange-500">Rs. 150</span>
+                </div>
+                <button id="checkoutDispatchTriggerButton"
+                    class="w-full bg-orange-500 hover:bg-orange-600 text-[#0b0c10] font-bold py-3 rounded-lg text-xs tracking-widest transition-all duration-200 mt-2 shadow-lg shadow-orange-500/10">
+                    PLACE SECURE ORDER VIA WHATSAPP
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+           <footer class="bg-[#1f2833]/40 border-t border-orange-500/20 mt-16 backdrop-blur-md w-full">
+        <div class="max-w-7xl mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-sm">
+                
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center font-bold text-[#0b0c10] elegant-title text-md">Q</div>
+                        <h3 class="text-white font-bold tracking-widest elegant-title text-base uppercase">Quetta Bolan Cafe</h3>
+                    </div>
+                    <p class="text-slate-400 text-xs leading-relaxed text-justify">
+                        Islamabad ka authentic taste aur premium culinary experience. Hum har cup Chai aur har revolving dish ko behtareen aur khalis ingredients ke sath tayyar karte hain taake aapko mile har baar wahi rawayati aur lazeez zaiqa.
+                    </p>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="text-orange-500 font-bold tracking-wider uppercase text-xs border-b border-[#1f2833] pb-2">
+                        🕒 Operational Hours
+                    </h4>
+                    <ul class="space-y-2 text-xs text-slate-300">
+                        <li class="flex justify-between"><span class="text-slate-500">Monday - Thursday:</span> <span>06:00 AM - 02:00 AM</span></li>
+                        <li class="flex justify-between text-amber-400"><span class="text-slate-500">Friday - Sunday:</span> <span>06:00 AM - 02:00 AM</span></li>
+                        <li class="flex justify-between"><span class="text-slate-500">Delivery Timings:</span> <span>Non-Stop Flash Service</span></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="text-orange-500 font-bold tracking-wider uppercase text-xs border-b border-[#1f2833] pb-2">
+                        📞 Connect With Us
+                    </h4>
+                    <div class="space-y-2 text-xs text-slate-300">
+                        <p class="flex items-center gap-2">
+                            <span>📍</span> 
+                            <span class="text-slate-400">DHA Phase 2, Islamabad</span>
+                        </p>
+                        <p class="flex items-center gap-2">
+                            <span>💬</span> 
+                            <span>WhatsApp Hotline: <a href="https://wa.me/923449413307" target="_blank" class="text-orange-400 hover:underline font-semibold">0344 9413307</a></span>
+                        </p>
+                        <p class="flex items-center gap-2">
+                            <span>💳</span> 
+                            <span>Accounts Title: <span class="text-emerald-400 font-medium">JazzCash EasyPaisa Muhammad Anwer 03095253009</span></span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="border-t border-[#1f2833] mt-10 pt-6 text-center">
+                <p class="text-[10px] tracking-widest text-slate-500 uppercase">
+                    &copy; 2026 QUETTA BOLAN CAFE • 
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <footer class="bg-[#0b0c10] border-t border-[#1f2833] py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p class="text-sm tracking-widest text-orange-500 elegant-title">QUETTA BOLAN CAFE</p>
+            <p class="text-xs text-slate-500">Premium Digital Dining Ecosystem & Logistics Engine</p>
+            <p class="text-[9px] text-slate-600 pt-2">&copy; 2026 Quetta Bolan Cafe. </p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDNxCOGA0VTh6P401Uxe7btajLmvheHWoQ",
+            authDomain: "bolancafe-28aaa.firebaseapp.com",
+            databaseURL: "https://bolancafe-28aaa-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "bolancafe-28aaa"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        let APPLICATION_CART_OBJECT = {};
+        let RAW_DATABASE_MENU_ITEMS = {}; 
+        let RAW_DATABASE_CATEGORIES = {}; 
+        let RUNTIME_CURRENT_FILTER = 'ALL';
+        const DELIVERY_FEE = 150;
+        const CAFE_WHATSAPP_ROUTING_NUMBER = "923449413307";
+
+        // --- BINDING EVENTS TO ALL INTERFACES ---
+        document.getElementById('adminPortalTriggerButton').addEventListener('click', () => toggleAdminModal(true));
+        document.getElementById('closeAdminAuthModalButton').addEventListener('click', () => toggleAdminModal(false));
+        document.getElementById('authorizeAdminAccessButton').addEventListener('click', runAdminChallenge);
+        document.getElementById('exitAdminPanelButton').addEventListener('click', exitAdminPanel);
+        document.getElementById('saveCategoryRecordButton').addEventListener('click', createCategory);
+        document.getElementById('triggerImageUploadButton').addEventListener('click', processImageCompression);
+        document.getElementById('menuItemCrudForm').addEventListener('submit', saveDishToDatabase);
+        document.getElementById('cartSidebarTriggerButton').addEventListener('click', () => toggleCartSidebar(true));
+        document.getElementById('closeCartSidebarXButton').addEventListener('click', () => toggleCartSidebar(false));
+        document.getElementById('checkoutDispatchTriggerButton').addEventListener('click', commitCheckout);
+        document.getElementById('payMethodCodRadio').addEventListener('change', () => togglePaymentView('COD'));
+        document.getElementById('payMethodOnlineRadio').addEventListener('change', () => togglePaymentView('ONLINE'));
+
+        function toggleAdminModal(show) {
+            const modal = document.getElementById('adminAuthPortalModal');
+            if (show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
+        }
+
+        function toggleCartSidebar(show) {
+            const modal = document.getElementById('clientCartSidebarModal');
+            if (show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
+        }
+
+        function runAdminChallenge() {
+            const user = document.getElementById('authPortalUsernameField').value;
+            const pass = document.getElementById('authPortalPasswordField').value;
+            const errorFrame = document.getElementById('authPanelErrorMessage');
+
+            if (user === "admin" && pass === "bolan786") {
+                errorFrame.classList.add('hidden');
+                toggleAdminModal(false);
+                document.getElementById('adminSystemControlSection').classList.remove('hidden');
+                document.getElementById('customerApplicationSection').classList.add('hidden');
+            } else {
+                errorFrame.classList.remove('hidden');
+            }
+        }
+
+        function exitAdminPanel() {
+            document.getElementById('adminSystemControlSection').classList.add('hidden');
+            document.getElementById('customerApplicationSection').classList.remove('hidden');
+        }
+
+        function createCategory() {
+            const inp = document.getElementById('newCategoryTitleInput');
+            const title = inp.value.trim();
+            if(!title) return alert("Category ka naam likhein!");
+
+            set(push(ref(database, 'categories')), { name: title }).then(() => {
+                inp.value = '';
+                alert("Category Saved!");
+            }).catch(err => alert("Error: " + err.message));
+        }
+
+        function deleteCategory(key, name) {
+            if(confirm(`Delete "${name}" Category?`)) {
+                remove(ref(database, 'categories/' + key));
+            }
+        }
+
+        onValue(ref(database, 'categories'), (snapshot) => {
+            RAW_DATABASE_CATEGORIES = snapshot.val() || {};
+            const customerRow = document.getElementById('customerCategoryButtonsRow');
+            const adminChips = document.getElementById('adminCategoryChipsWrapper');
+            const formSelect = document.getElementById('crudItemCategory');
+
+            customerRow.innerHTML = `<button id="filter-btn-all" class="category-filter-btn bg-orange-500 text-[#0b0c10] font-bold text-xs px-4 py-2 rounded-full transition-all">All Items</button>`;
+            adminChips.innerHTML = '';
+            formSelect.innerHTML = '';
+
+            document.getElementById('filter-btn-all').addEventListener('click', () => filterMenu('ALL'));
+
+            Object.keys(RAW_DATABASE_CATEGORIES).forEach(key => {
+                const cat = RAW_DATABASE_CATEGORIES[key];
+                const btnId = `filter-btn-${key}`;
+                
+                customerRow.innerHTML += `<button id="${btnId}" class="category-filter-btn bg-[#1f2833] hover:bg-[#1f2833]/80 text-white font-medium text-xs px-4 py-2 rounded-full transition-all">${cat.name}</button>`;
+                adminChips.innerHTML += `
+                    <div class="flex items-center gap-2 bg-[#0b0c10] border border-red-500/20 text-xs text-white px-3 py-1.5 rounded-lg">
+                        <span>${cat.name}</span>
+                        <button id="del-cat-${key}" class="text-red-500 font-bold ml-1">✕</button>
+                    </div>`;
+                formSelect.innerHTML += `<option value="${cat.name}">${cat.name}</option>`;
+            });
+
+            Object.keys(RAW_DATABASE_CATEGORIES).forEach(key => {
+                const cat = RAW_DATABASE_CATEGORIES[key];
+                document.getElementById(`filter-btn-${key}`).addEventListener('click', () => filterMenu(cat.name));
+                document.getElementById(`del-cat-${key}`).addEventListener('click', () => deleteCategory(key, cat.name));
+            });
+
+            renderGrids(RUNTIME_CURRENT_FILTER);
+        });
+
+        // --- FIXED HIGH DEFINITION (HD) BASE64 ASSET CONVERTER ---
+        function processImageCompression() {
+            const fileInput = document.getElementById('crudImageFileSelector');
+            const file = fileInput.files[0];
+            if (!file) return alert("Pehle koi image select karein!");
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function (event) {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = function () {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    // High Definition Constraints
+                    const MAX_WIDTH = 800;  
+                    const MAX_HEIGHT = 600; 
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+                    } else {
+                        if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+                    
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // 0.9 = 90% Crisp High Quality Output
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.9);
+                    
+                    document.getElementById('imageUrlInput').value = compressedDataUrl;
+                    document.getElementById('adminImagePreviewElement').src = compressedDataUrl;
+                    document.getElementById('linkContainer').classList.remove('hidden');
+                    alert("Premium HD Image Asset Locked!");
+                }
+            };
+        }
+
+        function saveDishToDatabase(e) {
+            e.preventDefault();
+            const title = document.getElementById('crudItemTitle').value;
+            const price = parseFloat(document.getElementById('crudItemPrice').value);
+            const category = document.getElementById('crudItemCategory').value;
+            const desc = document.getElementById('crudItemDescription').value || '';
+            const imageUrl = document.getElementById('imageUrlInput').value || 'https://via.placeholder.com/300';
+            const isChefSpecial = document.getElementById('crudIsChefSpecial').checked;
+            const isFeatured = document.getElementById('crudIsFeatured').checked;
+
+            if(!category) return alert("Pehle ek category add karein!");
+
+            set(push(ref(database, 'menuItems')), {
+                title, price, category, description: desc, image: imageUrl, isChefSpecial, isFeatured
+            }).then(() => {
+                alert("Dish successfully saved to online database!");
+                document.getElementById('menuItemCrudForm').reset();
+                document.getElementById('linkContainer').classList.add('hidden');
+            }).catch(err => alert("DB Error: " + err.message));
+        }
+
+        onValue(ref(database, 'menuItems'), (snapshot) => {
+            RAW_DATABASE_MENU_ITEMS = snapshot.val() || {};
+            renderGrids(RUNTIME_CURRENT_FILTER); 
+        });
+
+        function renderGrids(filterCat) {
+            const menuGrid = document.getElementById('menuGrid');
+            const chefGrid = document.getElementById('chefSpecialsGrid');
+            const chefCon = document.getElementById('chefSpecialsContainer');
+            const featGrid = document.getElementById('featuredItemsGrid');
+            const featCon = document.getElementById('featuredItemsContainer');
+            const tableBody = document.getElementById('adminInventoryTableBody');
+
+            menuGrid.innerHTML = ''; chefGrid.innerHTML = ''; featGrid.innerHTML = ''; tableBody.innerHTML = '';
+            let hasChef = false, hasFeat = false, hasReg = false;
+
+            Object.keys(RAW_DATABASE_MENU_ITEMS).forEach((key) => {
+                const item = RAW_DATABASE_MENU_ITEMS[key];
+                let tags = '';
+                if(item.isChefSpecial) tags += ' 👨‍🍳';
+                if(item.isFeatured) tags += ' ✨';
+
+                tableBody.innerHTML += `
+                    <tr class="border-b border-[#1f2833]/60 hover:bg-[#1f2833]/20">
+                        <td class="p-2 text-white font-medium">${item.title} ${tags}</td>
+                        <td class="p-2 text-slate-400">${item.category}</td>
+                        <td class="p-2 text-emerald-400 font-bold">Rs. ${item.price}</td>
+                        <td class="p-2 text-right"><button id="del-item-${key}" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2 py-1 rounded text-[10px]">DELETE</button></td>
+                    </tr>`;
+
+                if (filterCat !== 'ALL' && item.category !== filterCat) return;
+
+                const cardHtml = `
+                    <div class="bg-[#1f2833]/50 border border-[#1f2833] rounded-xl overflow-hidden shadow-lg group">
+                        <div class="relative h-48 overflow-hidden"><img src="${item.image}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"></div>
+                        <div class="p-4 space-y-2">
+                            <span class="text-[10px] text-orange-500 uppercase font-bold tracking-widest">${item.category}</span>
+                            <h3 class="text-white font-bold text-lg">${item.title}</h3>
+                            <p class="text-slate-400 text-xs line-clamp-2">${item.description || 'No description available'}</p>
+                            <div class="flex justify-between items-center pt-2">
+                                <p class="text-orange-500 font-extrabold text-sm">Rs. ${item.price}</p>
+                                <button id="add-cart-${key}" class="bg-orange-500 hover:bg-orange-600 text-[#0b0c10] font-bold text-xs px-3 py-1.5 rounded-lg transition-all">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>`;
+
+                if (item.isChefSpecial) { chefGrid.innerHTML += cardHtml; hasChef = true; } 
+                if (item.isFeatured) { featGrid.innerHTML += cardHtml; hasFeat = true; }
+                if (!item.isChefSpecial && !item.isFeatured) { menuGrid.innerHTML += cardHtml; hasReg = true; }
+            });
+
+            Object.keys(RAW_DATABASE_MENU_ITEMS).forEach((key) => {
+                const item = RAW_DATABASE_MENU_ITEMS[key];
+                if(document.getElementById(`del-item-${key}`)){
+                    document.getElementById(`del-item-${key}`).addEventListener('click', () => {
+                        if(confirm("Delete this item?")) remove(ref(database, 'menuItems/' + key));
+                    });
+                }
+                if(document.getElementById(`add-cart-${key}`)){
+                    document.getElementById(`add-cart-${key}`).addEventListener('click', () => {
+                        if (APPLICATION_CART_OBJECT[key]) APPLICATION_CART_OBJECT[key].qty += 1;
+                        else APPLICATION_CART_OBJECT[key] = { title: item.title, price: item.price, qty: 1 };
+                        refreshCartUI();
+                        alert(`${item.title} added to cart!`);
+                    });
+                }
+            });
+
+            chefCon.style.display = hasChef ? 'block' : 'none';
+            featCon.style.display = hasFeat ? 'block' : 'none';
+            if (!hasReg && !hasChef && !hasFeat) menuGrid.innerHTML = '<p class="col-span-full text-center text-slate-500 py-10">No items available.</p>';
+        }
+
+        function filterMenu(category) {
+            RUNTIME_CURRENT_FILTER = category;
+            document.getElementById('currentMenuHeading').innerText = category === 'ALL' ? 'OUR REFINED MENU' : category.toUpperCase();
+            renderGrids(category);
+        }
+
+        function refreshCartUI() {
+            const canvas = document.getElementById('cartItemWrapperCanvas');
+            canvas.innerHTML = '';
+            let subtotal = 0, totalItems = 0;
+
+            Object.keys(APPLICATION_CART_OBJECT).forEach(id => {
+                const item = APPLICATION_CART_OBJECT[id];
+                subtotal += item.price * item.qty;
+                totalItems += item.qty;
+
+                canvas.innerHTML += `
+                    <div class="flex justify-between items-center bg-[#0b0c10] p-2 rounded border border-[#1f2833]">
+                        <div><p class="text-white font-medium">${item.title}</p><p class="text-slate-400 text-[11px]">Rs. ${item.price} x ${item.qty}</p></div>
+                        <div class="flex items-center gap-2">
+                            <button id="minus-qty-${id}" class="bg-slate-800 text-white px-2 py-0.5 rounded">-</button>
+                            <span class="text-white">${item.qty}</span>
+                            <button id="plus-qty-${id}" class="bg-slate-800 text-white px-2 py-0.5 rounded">+</button>
+                        </div>
+                    </div>`;
+            });
+
+            Object.keys(APPLICATION_CART_OBJECT).forEach(id => {
+                document.getElementById(`minus-qty-${id}`).addEventListener('click', () => {
+                    APPLICATION_CART_OBJECT[id].qty -= 1;
+                    if(APPLICATION_CART_OBJECT[id].qty <= 0) delete APPLICATION_CART_OBJECT[id];
+                    refreshCartUI();
+                });
+                document.getElementById(`plus-qty-${id}`).addEventListener('click', () => {
+                    APPLICATION_CART_OBJECT[id].qty += 1;
+                    refreshCartUI();
+                });
+            });
+
+            document.getElementById('cartCountBadge').innerText = totalItems;
+            document.getElementById('checkoutSummarySubtotalDisplay').innerText = "Rs. " + subtotal;
+            document.getElementById('checkoutSummaryGrandTotalDisplay').innerText = "Rs. " + (subtotal > 0 ? (subtotal + DELIVERY_FEE) : 0);
+        }
+
+        function togglePaymentView(method) {
+            const panel = document.getElementById('checkoutOnlinePaymentDetailsSubpanel');
+            if (method === 'ONLINE') panel.classList.remove('hidden');
+            else panel.classList.add('hidden');
+        }
+
+        function commitCheckout() {
+            const name = document.getElementById('checkoutGuestFullName').value;
+            const phone = document.getElementById('checkoutGuestContactNumber').value;
+            const address = document.getElementById('checkoutGuestDeliveryAddress').value;
+            const notes = document.getElementById('checkoutSpecialInstructionsTextarea').value || 'None';
+            const payMethod = document.querySelector('input[name="paymentOptionRadioGroup"]:checked').value;
+
+            if (!name || !phone || !address) return alert("Details fill karein!");
+            if (Object.keys(APPLICATION_CART_OBJECT).length === 0) return alert("Cart khali hai!");
+
+            let text = `*🔥 NEW ORDER - QUETTA BOLAN CAFE * \n\n*Customer:* ${name}\n*Phone:* ${phone}\n*Address:* ${address}\n*Payment:* ${payMethod}\n*Instructions:* ${notes}\n\n*--- ITEMS ORDERED ---*\n`;
+            let subtotal = 0;
+            Object.keys(APPLICATION_CART_OBJECT).forEach(id => {
+                const item = APPLICATION_CART_OBJECT[id];
+                text += `- ${item.title} (x${item.qty}) = Rs. ${item.price * item.qty}\n`;
+                subtotal += item.price * item.qty;
+            });
+
+            text += `\n*Subtotal:* Rs. ${subtotal}\n*Delivery:* Rs. ${DELIVERY_FEE}\n*Grand Total:* Rs. ${subtotal + DELIVERY_FEE}\n`;
+            window.open(`https://api.whatsapp.com/send?phone=${CAFE_WHATSAPP_ROUTING_NUMBER}&text=${encodeURIComponent(text)}`, '_blank');
+
+            APPLICATION_CART_OBJECT = {};
+            refreshCartUI();
+            toggleCartSidebar(false);
+        }
+
+        document.getElementById('menuSearchInput').addEventListener('input', function (e) {
+            const q = e.target.value.toLowerCase().trim();
+            const filterRow = (gridId) => {
+                const items = document.getElementById(gridId).getElementsByClassName('group');
+                for (let item of items) {
+                    const title = item.querySelector('h3').innerText.toLowerCase();
+                    const cat = item.querySelector('span').innerText.toLowerCase();
+                    item.style.display = (title.includes(q) || cat.includes(q)) ? 'block' : 'none';
+                }
+            };
+            filterRow('menuGrid');
+            filterRow('chefSpecialsGrid');
+            filterRow('featuredItemsGrid');
+        });
+    </script>
+</body>
+
+</html>
